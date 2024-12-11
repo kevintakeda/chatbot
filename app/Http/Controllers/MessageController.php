@@ -11,8 +11,11 @@ class MessageController extends Controller
 {
     public function index()
     {
-        $messages = Message::with('user')->latest()->get();
-        return Inertia::render('Messages/Index', ['messages' => $messages]);
+        $messages = Message::with('user')
+            ->orderBy('created_at')
+            ->orderBy('id')
+            ->get();
+        return Inertia::render('Chat', ['messages' => $messages]);
     }
 
     public function store(Request $request)
@@ -27,6 +30,12 @@ class MessageController extends Controller
             'is_system' => false,
         ]);
 
-        return response()->json(['message' => $message]);
+        $systemMessage = Message::create([
+            'content' => 'Your message has been received.',
+            'user_id' => Auth::id(),
+            'is_system' => true,
+        ]);
+
+        return self::index();
     }
 }

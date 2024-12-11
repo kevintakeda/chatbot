@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MessageController;
+use App\Models\Message;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,13 +18,8 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/chat', function () {
-        // like this for now
-        return Inertia::render('Chat');
-    });
-
-    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
-    Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+    Route::get('/chat', [MessageController::class, 'index'])->name('chat.index');
+    Route::post('/chat', [MessageController::class, 'store'])->name('chat.store');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
