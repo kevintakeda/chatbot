@@ -37,11 +37,22 @@ class MessageController extends Controller
             'is_system' => false,
         ]);
 
+        $messages = Message::with('user')
+            ->orderBy('created_at')
+            ->orderBy('id')
+            ->get()->map(function ($message) {
+                return [
+                    'role' => $message->is_system ? 'model' : 'user',
+                    'parts' => ['text' => $message->content],
+                ];
+            })
+            ->toArray();
+
         try {
-            $systemMessageContent = $this->geminiService->generateContent($request->content);
+            $systemMessageContent = $this->geminiService->generateContent($messages);
         } catch (\Exception $e) {
             logger()->error('Failed to generate content: ' . $e->getMessage());
-            $systemMessageContent = 'Your message has been received.';
+            $systemMessageContent = 'Something went wrong!';
         }
 
 

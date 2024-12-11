@@ -13,18 +13,11 @@ class Gemini
     $this->apiKey = config('services.gemini.key');
   }
 
-  public function generateContent(string $input): string
+  public function generateContent(array $contents): string
   {
     $response = Http::post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$this->apiKey}", [
       'contents' => [
-        [
-          'role' => 'user',
-          'parts' => [
-            [
-              'text' => $input,
-            ],
-          ],
-        ],
+        $contents
       ],
       'generationConfig' => [
         'temperature' => 1,
