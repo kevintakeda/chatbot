@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/chat', [MessageController::class, 'index'])->name('chat.index');
     Route::post('/chat', [MessageController::class, 'store'])->name('chat.store');
+    Route::delete('/chat/clear', [MessageController::class, 'clear'])->name('chat.clear');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

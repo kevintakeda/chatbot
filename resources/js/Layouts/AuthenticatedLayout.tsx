@@ -9,7 +9,7 @@ export default function Authenticated({
     const user = usePage().props.auth.user;
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-neutral-950">
-            <div className="flex p-4 justify-between">
+            <div className="flex h-[3.5rem] px-4 items-center justify-between">
                 <Link href="/chat" className="font-bold">Chat</Link>
                 <DropdownMenu>
                     <DropdownMenuTrigger>

@@ -1,5 +1,8 @@
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { cn } from "@/lib/utils";
 import { PageProps } from "@/types";
 import { Message } from "@/types/models/Message";
 import { Head, useForm, usePage } from '@inertiajs/react';
@@ -50,18 +53,21 @@ export default function Chat() {
     return (
         <AuthenticatedLayout>
             <Head title="Chat" />
-            <div>
-                <ul>
+            <ScrollArea className="h-[calc(100vh-3.5rem)] w-full">
+                <ul className="max-w-[40rem] m-auto">
                     {props.messages.map((message) => (
-                        <li key={message.id}>
+                        <li key={message.id} className={cn("mb-4 p-4 rounded", message.is_system ? "bg-neutral-700" : "border border-solid border-b-neutral-700")}>
                             {message.content}
                         </li>
                     ))}
                 </ul>
-                <div ref={totemRef}></div>
-            </div>
-            <div className='m-auto max-w-[40rem]'>
-                <Textarea ref={textareaRef} value={data.content} maxLength={2048} disabled={processing} onKeyDown={handleKeydown} onChange={(e) => setData("content", e.currentTarget.value)} placeholder="Type your message here." />
+                <div ref={totemRef} className="h-[calc(80px+2rem)]"></div>
+            </ScrollArea>
+
+            <div className="fixed bottom-0 w-full bg-gradient-to-t from-neutral-950 p-8">
+                <div className='m-auto max-w-[40rem] h-[80px]'>
+                    <Textarea ref={textareaRef} value={data.content} maxLength={2048} disabled={processing} onKeyDown={handleKeydown} onChange={(e) => setData("content", e.currentTarget.value)} placeholder="Type your message here." />
+                </div>
             </div>
         </AuthenticatedLayout>
     );

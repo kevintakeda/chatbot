@@ -55,13 +55,14 @@ class MessageController extends Controller
             $systemMessageContent = 'Something went wrong!';
         }
 
+        $systemMessage = Message::createSystemMessage($systemMessageContent);
 
-        $systemMessage = Message::create([
-            'content' => $systemMessageContent,
-            'user_id' => Auth::id(),
-            'is_system' => true,
-        ]);
+        return self::index();
+    }
 
+    public function clearMessages()
+    {
+        Message::where('user_id', Auth::id())->delete();
         return self::index();
     }
 }
