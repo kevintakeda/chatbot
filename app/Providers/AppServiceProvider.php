@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Vite::prefetch(concurrency: 3);
         RedirectIfAuthenticated::redirectUsing(function () {
-            return route('chat');
+            return route('chat.index');
         });
     }
 }
